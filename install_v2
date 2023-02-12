@@ -11,12 +11,12 @@ if [[ ! -f "./wlog_v2" ]]; then
     exit
 fi
 
-mkdir -p /usr/bin/;
+mkdir -p /usr/local/bin/;
 
-if ! cp -f wlog_v2 /usr/bin/; then
+if ! cp -f wlog_v2 /usr/local/bin/; then
     exit 1
 fi
 
-ln -sf /usr/bin/wlog_v2 /usr/bin/wlog;
+ln -sf /usr/local/bin/wlog_v2 /usr/local/bin/wlog;
 echo "Worker Logger version 2 installed successfully.
 Run 'wlog' from anywhere for new or existing notes with auto timestamp :)";
