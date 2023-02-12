@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Installation script for the wlog terminal utility
+
+if [[ "$EUID" -ne 0 ]]; then
+    echo "Please, run as root user"
+    exit 1
+fi
+
+if [[ ! -f "./wlog_v2" ]]; then
+    echo "Worker Logger version 2 file missing"
+    exit
+fi
+
+mkdir -p /usr/bin/;
+
+if ! cp -f wlog_v2 /usr/bin/; then
+    exit 1
+fi
+
+ln -sf /usr/bin/wlog_v2 /usr/bin/wlog;
+echo "Worker Logger version 2 installed successfully.
+Run 'wlog' from anywhere for new or existing notes with auto timestamp :)";
