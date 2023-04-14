@@ -14,6 +14,7 @@ fi
 mkdir -p /usr/local/bin/;
 
 if ! cp -f wlog_v2 /usr/local/bin/; then
+    echo "Failed to copy binary to dir in PATH"
     exit 1
 fi
 
