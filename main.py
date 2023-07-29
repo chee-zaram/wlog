@@ -22,7 +22,7 @@ class WorkerLogger(cmd.Cmd):
             '               "quit" or "EOF" to exit\n' + \
             '              Read the man page for more\n'
 
-    prompt = "(v2) "
+    prompt = "(v1) "
 
     def emptyline(self):
         """Does nothing when an empty line is passed"""

@@ -2,22 +2,22 @@
 # Installation script for the wlog terminal utility
 
 if [[ "$EUID" -ne 0 ]]; then
-    echo "Please, run as root user"
-    exit 1
+	echo "Please, run as root user"
+	exit 1
 fi
 
-if [[ ! -f "./wlog_v2" ]]; then
-    echo "Worker Logger version 2 file missing"
-    exit 1
+if [[ ! -f "./main.py" ]]; then
+	echo "Worker Logger file missing"
+	exit 1
 fi
 
-mkdir -p /usr/local/bin/;
+mkdir -p /usr/local/bin/
 
-if ! cp -f wlog_v2 /usr/local/bin/; then
-    echo "Failed to copy binary to dir in PATH"
-    exit 1
+if ! cp -f ./main.py /usr/local/bin/wlog_v1; then
+	echo "Failed to copy binary to dir in PATH"
+	exit 1
 fi
 
-ln -sf /usr/local/bin/wlog_v2 /usr/local/bin/wlog;
-echo "Worker Logger version 2 installed successfully.
-Run 'wlog' from anywhere for new or existing notes with auto timestamp :)";
+ln -sf /usr/local/bin/wlog_v1 /usr/local/bin/wlog
+echo "Worker Logger installed successfully.
+Run 'wlog' from anywhere for new or existing notes with auto timestamp :)"
