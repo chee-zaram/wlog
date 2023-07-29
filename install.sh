@@ -18,6 +18,8 @@ if ! cp -f ./main.py /usr/local/bin/wlog_v1; then
 	exit 1
 fi
 
+sudo chmod +x /usr/local/bin/wlog_v1
+
 ln -sf /usr/local/bin/wlog_v1 /usr/local/bin/wlog
 echo "Worker Logger installed successfully.
 Run 'wlog' from anywhere for new or existing notes with auto timestamp :)"
