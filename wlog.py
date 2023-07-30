@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 """
-The `wlog` module provides the `WorkerLogger` class.
-It allows users to log text on the command line and save the logs to a file.
-File is named `notes.log`.
-If the file doesn't have the correct header, it is moved to `invalid_notes.log`
-and the header is then added to the beginning of the new file
-before logging entries.
+This is the `wlog` module.
+It contains the `WorkerLogger` class which writes logs into a file.
 """
 
 import cmd
@@ -16,8 +12,12 @@ from datetime import datetime
 
 class WorkerLogger(cmd.Cmd):
     """
-    The `WorkerLogger` class inherits from cmd.Cmd and provides a command-line
-    interface for logging messages to the file.
+    The `WorkerLogger` class provides a command-line interface for logging
+    messages to a file named 'notes.log'.
+
+    If the file doesn't have the correct header, it is moved to
+    'invalid_notes.log', and the header is added to the beginning of the file
+    before logging any further entries.
     """
 
     prompt = "(v1) "
@@ -31,22 +31,39 @@ class WorkerLogger(cmd.Cmd):
     invalid_file_path = os.path.join(os.getcwd(), "invalid_notes.log")
 
     def emptyline(self) -> bool:
-        """Does nothing when an empty line is passed"""
+        """
+        This method does nothing when an empty line is passed.
+
+        Returns:
+            bool: Always returns True.
+        """
         return True
 
     def do_NL(self, line: str) -> None:
-        """Used to substitute a new line while"""
+        """
+        Used to substitute a new line while typing a note.
+
+        Args:
+            line (str): The input string containing the '$NL' macro.
+        """
         pass
 
     def help_NL(self) -> None:
-        """Help doc for `NL` macro"""
-
+        """
+        Display help documentation for the 'NL' macro, explaining how to use
+        it for new line substitution.
+        """
         print("Used to substitute a new line while typing a note")
         print("Example:\n  (log) I live.$NLI log!")
         print("Output:\n  I live.\n  I log!\n")
 
     def do_quit(self, line: str) -> None:
-        """Quits the application\nUsage:\n  (log) quit\n"""
+        """
+        Quits the application.
+
+        Usage:
+            (log) quit
+        """
         pass
 
     def check_header(self, file_path: str) -> bool:
@@ -69,15 +86,24 @@ class WorkerLogger(cmd.Cmd):
 
     def write_invalid_file(self) -> None:
         """
-        Move the previous file to invalid_notes.log if it does not have the
+        Move the previous file to 'invalid_notes.log' if it does not have the
         correct header.
         """
         if os.path.exists(self.file_path):
             os.rename(self.file_path, self.invalid_file_path)
 
     def logger(self, line: str) -> str:
-        """Prints into a file the text from stdin on the command line"""
+        """
+        Log the input 'line' to the 'notes.log' file. If the file does not
+        have the correct header, it adds the header before logging the entry.
 
+        Args:
+            line (str): The text to log in the file. The '$NL' macro in the
+                input string is replaced with actual newlines ('\n').
+
+        Returns:
+            str: A string containing the logged content (empty string).
+        """
         max = 18
         line = re.sub(r'\$NL', '\n\t', line)
         date_format = "%A, %B %d %Y  %H:%M:%S"
@@ -108,8 +134,17 @@ class WorkerLogger(cmd.Cmd):
         return "\n"
 
     def precmd(self, line: str) -> str:
-        """Runs before all commands are sent to the command interpreter"""
+        """
+        Run before all commands are sent to the command interpreter.
+        Handles the input 'line' and performs the required actions.
 
+        Args:
+            line (str): The input command line.
+
+        Returns:
+            str: The input line after processing or an empty string if certain
+                commands should terminate the program.
+        """
         if not line or re.search(r'^quit', line):
             return "\n"
 
