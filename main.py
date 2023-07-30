@@ -49,16 +49,48 @@ class WorkerLogger(cmd.Cmd):
         """Quits the application\nUsage:\n  (log) quit\n"""
         pass
 
-    def logger(self, line):
+    def check_header(self, file_path: str) -> bool:
+        """
+        Check if the file has the correct header at the beginning.
+
+        Args:
+            file_path (str): The path to the file to check.
+
+        Returns:
+            bool: True if the correct header exists as the first line,
+                False otherwise.
+        """
+        if os.path.exists(file_path):
+            with open(file_path, "r") as fd:
+                h = fd.readline()
+                if h[:-1] == self.header:
+                    return True
+        return False
+
+    def write_invalid_file(self) -> None:
+        """
+        Move the previous file to invalid_notes.log if it does not have the
+        correct header.
+        """
+        if os.path.exists(self.file_path):
+            os.rename(self.file_path, self.invalid_file_path)
+
+    def logger(self, line: str) -> str:
         """Prints into a file the text from stdin on the command line"""
 
-        file_path = os.path.join(os.getcwd(), "notes.log")
         max = 18
         line = re.sub(r'\$NL', '\n\t', line)
         date_format = "%A, %B %d %Y  %H:%M:%S"
         words = line.split(' ')
 
-        with open(file_path, "a") as fd:
+        # Check and handle header
+        if not self.check_header(self.file_path):
+            self.write_invalid_file()
+            with open(self.file_path, "w") as fd:
+                fd.write(self.header)
+                fd.write("\n")
+
+        with open(self.file_path, "a") as fd:
             fd.write("\n")
             fd.write(datetime.now().strftime(date_format) + "\n")
             i = 0
