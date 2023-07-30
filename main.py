@@ -30,22 +30,22 @@ class WorkerLogger(cmd.Cmd):
     file_path = os.path.join(os.getcwd(), "notes.log")
     invalid_file_path = os.path.join(os.getcwd(), "invalid_notes.log")
 
-    def emptyline(self):
+    def emptyline(self) -> bool:
         """Does nothing when an empty line is passed"""
         return True
 
-    def do_NL(self, line):
+    def do_NL(self, line: str) -> None:
         """Used to substitute a new line while"""
         pass
 
-    def help_NL(self):
+    def help_NL(self) -> None:
         """Help doc for `NL` macro"""
 
         print("Used to substitute a new line while typing a note")
         print("Example:\n  (log) I live.$NLI log!")
         print("Output:\n  I live.\n  I log!\n")
 
-    def do_quit(self, line):
+    def do_quit(self, line: str) -> None:
         """Quits the application\nUsage:\n  (log) quit\n"""
         pass
 
@@ -75,7 +75,7 @@ class WorkerLogger(cmd.Cmd):
 
         return "\n"
 
-    def precmd(self, line):
+    def precmd(self, line: str) -> str:
         """Runs before all commands are sent to the command interpreter"""
 
         if not line or re.search(r'^quit', line):
