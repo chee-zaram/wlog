@@ -6,14 +6,14 @@ if [[ "$EUID" -ne 0 ]]; then
 	exit 1
 fi
 
-if [[ ! -f "./main.py" ]]; then
+if [[ ! -f "./wlog.py" ]]; then
 	echo "Worker Logger file missing"
 	exit 1
 fi
 
 mkdir -p /usr/local/bin/
 
-if ! cp -f ./main.py /usr/local/bin/wlog_v1; then
+if ! cp -f ./wlog.py /usr/local/bin/wlog_v1; then
 	echo "Failed to copy binary to dir in PATH"
 	exit 1
 fi
